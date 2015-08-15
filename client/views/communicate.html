@@ -1,0 +1,71 @@
+<template name="communicate">
+    <div class="container">
+        <div class="controls">
+            <div class="row">
+                <div class="col offset-l2 s3 l1">
+                    <a class="waves-effect waves-teal btn-flat " id="video">
+                        <i class="material-icons">videocam</i>
+                    </a>
+                </div>
+                <div class="col s3 l1">
+                    <a class="waves-effect waves-teal btn-flat " id="image">
+                        <i class="material-icons">camera</i>
+                    </a>
+                </div>
+                <div class="col s3 l1">
+                    <a class="waves-effect waves-teal btn-flat " id="audio">
+                        <i class="material-icons">mic</i>
+                    </a>
+                </div>
+                <div class="col s3 l1">
+                    <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal-input-text" id="text">
+                        <i class="material-icons">translate</i>
+                    </a>
+                </div>
+                <div class="col s3 l1">
+                    <a class="waves-effect waves-teal btn-flat " id="location">
+                        <i class="material-icons">location_on</i>
+                    </a>
+                </div>
+                <div class="col s3 l1">
+                    <a class="waves-effect waves-teal btn-flat" id="live">
+                        <i class="material-icons">cast</i>
+                    </a>
+                </div>
+                <div class="col s3 l1">
+                    <a class="waves-effect waves-teal btn-flat " id="share">
+                        <i class="material-icons">share</i>
+                    </a>
+                </div>
+                <div class="col s3 l1">
+                    <a class="waves-effect waves-teal btn-flat " id="send">
+                        <i class="material-icons">send</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inputs -->
+    <div id="modal-input-text" class="modal bottom-sheet">
+        <div class="modal-content">
+            <div class="input-message row">
+                <div class="input-field col s12">
+                    <input id="input-text" type="text"/>
+                    <label for="text">Message</label>
+                </div>
+            </div>
+            <a class="waves-effect waves-teal btn-flat left close-modal-input-text" name="close">
+                <i class="material-icons">close</i>
+            </a>
+            <a class="waves-effect waves-teal btn-flat right add-modal-input-text" name="add">
+                <i class="material-icons">add</i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Video -->
+    <video id="video"></video>
+    <button id="startbutton">Take photo</button>
+    <canvas id="canvas"></canvas>
+</template>

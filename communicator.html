@@ -1,0 +1,22 @@
+<head>
+    <title>Communicator</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <div class="controls">
+        <p>controls</p>
+    </div>
+</body>
+
+<template name="site">
+    <header>
+        {{> yield "header"}}
+    </header>
+    <main>
+        {{> yield "content"}}
+    </main>
+    <footer>
+        {{> yield "footer"}}
+    </footer>
+</template>
