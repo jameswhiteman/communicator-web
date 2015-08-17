@@ -13,3 +13,8 @@ coffeescript
 iron:router
 mdg:geolocation
 mdg:camera
+flowkey:microphone
+strikeout:lazyload-xt
+http
+ovcharik:howler
+universe:audio-recorder

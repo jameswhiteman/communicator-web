@@ -1,5 +1,32 @@
 <template name="communicate">
     <div class="container">
+
+        <!-- Messages -->
+        <div class="messageContainer row">
+            {{#each messages}}
+            <div class="col s12">
+                <p>{{sender}} at {{timestamp}}</p>
+                {{#each communications}}
+                    {{#if isEqual type 'video'}}
+                    {{/if}}
+                    {{#if isEqual type 'image'}}
+                        <img src="{{value}}"/>
+                    {{/if}}
+                    {{#if isEqual type 'audio'}}
+                        <a class="waves-effect waves-light btn" id='playAudio' name="{{value}}"><i id="playAudioIcon" class="material-icons left">play_arrow</i></a>
+                    {{/if}}
+                    {{#if isEqual type 'text'}}
+                        <p class="flow-text">{{value}}</p>
+                    {{/if}}
+                    {{#if isEqual type 'location'}}
+                        <img src="{{getMap value}}">
+                    {{/if}}
+                {{/each}}
+            </div>
+            {{/each}}
+        </div>
+
+        <!-- Communication controls -->
         <div class="controls">
             <div class="row">
                 <div class="col offset-l2 s3 l1">
@@ -63,9 +90,4 @@
             </a>
         </div>
     </div>
-
-    <!-- Video -->
-    <video id="video"></video>
-    <button id="startbutton">Take photo</button>
-    <canvas id="canvas"></canvas>
 </template>

@@ -29,6 +29,13 @@ ln -s /usr/bin/nodejs /usr/bin/node
 # Install Mup
 npm install -g mup
 
+# Install JDK
+apt-get update
+apt-get install -y openjdk-7-jdk
+
+# Install 32-bit libraries
+apt-get install -y lib32z1 lib32stdc++6
+
 if ! [ -L /var/www ]; then
   rm -rf /var/www
   ln -fs /vagrant /var/www
