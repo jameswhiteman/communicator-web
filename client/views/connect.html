@@ -1,0 +1,16 @@
+<template name="connect">
+    {{#if currentUser}}
+        <div class="container">
+            <ul class="collection">
+                {{#each users}}
+                    <li class="collection-item avatar">
+                        <img class="responsive-img circle" alt="" src="{{profile.picture}}"/>
+                        <p class="flow-text">{{profile.firstName}} {{profile.lastName}}</p>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+    {{else}}
+        {{> yield "unverified"}}
+    {{/if}}
+</template>

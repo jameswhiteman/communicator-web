@@ -1,0 +1,45 @@
+<template name="profile">
+    {{#if currentUser}}
+        <div name="{{update}}"></div>
+        <div class="container">
+            <p class="flow-text center-align">Profile</p>
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12 m6">
+                            <input id="firstName" value="{{firstName}}" type="text" class="validate"/>
+                            {{#if hasFirstName}}
+                                <label class="active" for="firstName">First Name</label>
+                            {{else}}
+                                <label for="firstName">First Name</label>
+                            {{/if}}
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <input id="lastName" value="{{lastName}}" type="text" class="validate"/>
+                            {{#if hasLastName}}
+                                <label class="active" for="lastName">Last Name</label>
+                            {{else}}
+                                <label for="lastName">Last Name</label>
+                            {{/if}}
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="picture" value="{{picture}}" type="text" class="validate"/>
+                            {{#if hasPicture}}
+                                <label class="active" for="picture">Picture</label>
+                            {{else}}
+                                <label for="Picture">Picture</label>
+                            {{/if}}
+                        </div>
+                        <br/>
+                        <div class="center-align">
+                            <a class="btn-large waves-effect waves-light amber" id="submit"> <i class="material-icons left">done</i>Submit </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {{else}}
+        {{> yield "unverified"}}
+    {{/if}}
+</template>
+

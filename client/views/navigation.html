@@ -1,7 +1,7 @@
 <template name="navigation">
-    <nav class="red lighten-1">
-        <div class="container">
-            <div class="nav-wrapper">
+    <div class="navbar-fixed">
+        <nav class="teal darken-3">
+            <div class="nav-wrapper container">
                 <!--
                 <a href="/">
                     <img class="logo reponsive-img hide-on-med-and-down" src="/images/logo.png"/> 
@@ -10,18 +10,18 @@
                 <a href="/" class="brand-logo">Communicator</a>
                 <a href="#" data-activates="collapsable-menu" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="/communicate">Communicate</a></li>
-                    <li><a href="/profile">Profile</a></li>
-                    <li><a href="/connect">Connect</a></li>
-                    <li><a href="/settings">Settings</a></li>
+                    <li><a href="/communicate"><i class="material-icons left">chat_bubble</i></a></li>
+                    <li><a href="/profile"><i class="material-icons left">perm_identity</i></a></li>
+                    <li><a href="/connect"><i class="material-icons left">recent_actors</i></a></li>
+                    <li>{{> loginButtons}}</li>
                 </ul>
                 <ul class="side-nav" id="collapsable-menu">
                     <li><a href="/communicate">Communicate</a></li>
                     <li><a href="/profile">Profile</a></li>
                     <li><a href="/connect">Connect</a></li>
-                    <li><a href="/settings">Settingss</a></li>
+                    <li>{{> loginButtons}}</li>
                 </ul>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </div>
 </template>

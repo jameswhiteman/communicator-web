@@ -1,7 +1,8 @@
 root = global ? window
 
 if root.Meteor.isClient
-    message = sender: '29873h3h9837h', communications: []
+    message = sender: 'Anonymous', communications: []
+    depMessage = new Tracker.Dependency()
     communication = type: 'text', value: ''
     audioRecording = false
     microphone = null
@@ -9,12 +10,23 @@ if root.Meteor.isClient
     playing = false
     audioClip = []
 
+    autoScroll = ->
+        setTimeout( ->
+            $('html, body').animate({scrollTop:$(document).height() - $(window).height()})
+        , 500)
+
     Meteor.methods
         'save-audio': (audioData) ->
 
+    Template.communicate.message = ->
+        depMessage.depend()
+        for data, index in message.communications
+            message.communications[index].index = index
+        message
+
     Template.communicate.helpers
         messages: ->
-            Messages.find({})
+            Messages.find()
         isEqual: (string, value) ->
             string == value
         getMap: (location) ->
@@ -26,7 +38,37 @@ if root.Meteor.isClient
                 return "https://maps.googleapis.com/maps/api/staticmap?center=" + coordinates + "&zoom=" + zoomLevel + "&markers=" + coordinates + "&size=" + width + "x" + height
             else
                 return "http://cdn.designsrazzi.com/wp-content/uploads/2013/09/earth.jpg"
+        getTime: (timestamp) ->
+            date = new Date(timestamp)
+            return date.getHours() + ":" + date.getMinutes() + " " + (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear()
+        getName: (sender) ->
+            user = Meteor.users.findOne(sender)
+            if user
+                return user.profile.firstName + " " + user.profile.lastName
+            return ''
+
     Template.communicate.events
+        'keypress #input-text' : (event, template) ->
+
+            # Enter text on enter keypress
+            if event.which == 13
+                $('#modal-input-text').closeModal()
+                text = $('#input-text').val()
+                communication.type = 'text'
+                communication.value = text
+                final = jQuery.extend true, {}, communication
+                message.communications.push final
+                depMessage.changed()
+                autoScroll()
+                $('#input-text').val ''
+        'click #delete' : (e) ->
+            index = e.currentTarget.name
+            message.communications.splice(index, 1)
+            depMessage.changed()
+            autoScroll()
+        'click #text' : (e) ->
+            $('#modal-input-text').openModal()
+            $('#input-text').focus()
         'click .close-modal-input-text' : (e) ->
             $('#modal-input-text').closeModal()
         'click .add-modal-input-text' : (e) ->
@@ -36,20 +78,29 @@ if root.Meteor.isClient
             communication.value = text
             final = jQuery.extend true, {}, communication
             message.communications.push final
+            depMessage.changed()
+            autoScroll()
             $('#input-text').val ''
         'click #location' : (e) ->
-            console.log 'getting location'
             location = Geolocation.latLng()
             communication.type = 'location'
             communication.value = location
             final = jQuery.extend true, {}, communication
             message.communications.push final
+            depMessage.changed()
+            autoScroll()
         'click #send' : (e) ->
+            if !message.communications or message.communications.length == 0
+                Materialize.toast 'You have no message to send', 3000
+                return
+            message.sender = Meteor.userId()
             message.timestamp = new Date().getTime()
             final = jQuery.extend true, {}, message
             Messages.insert final
             message.type = 'text'
             message.communications = []
+            depMessage.changed()
+            autoScroll()
 
         'click #playAudio': (e) ->
             sound = $('#playAudio').attr 'name'
@@ -80,6 +131,8 @@ if root.Meteor.isClient
                     communication.value = data
                     final = jQuery.extend true, {}, communication
                     message.communications.push final
+                    depMessage.changed()
+                    autoScroll()
         'click #audio' : (e) ->
             # Stop recording if already recording
             if audioRecording
@@ -89,6 +142,8 @@ if root.Meteor.isClient
                     communication.value = audioClip
                     final = jQuery.extend true, {}, communication
                     message.communications.push final
+                    depMessage.changed()
+                    autoScroll()
                     audioClip = []
                     microphone.stop()
                     microphone.onAudioData = null

@@ -1,93 +1,110 @@
 <template name="communicate">
-    <div class="container">
+    {{#if currentUser}}
+        <div class="container">
 
-        <!-- Messages -->
-        <div class="messageContainer row">
-            {{#each messages}}
-            <div class="col s12">
-                <p>{{sender}} at {{timestamp}}</p>
-                {{#each communications}}
-                    {{#if isEqual type 'video'}}
-                    {{/if}}
-                    {{#if isEqual type 'image'}}
-                        <img src="{{value}}"/>
-                    {{/if}}
-                    {{#if isEqual type 'audio'}}
-                        <a class="waves-effect waves-light btn" id='playAudio' name="{{value}}"><i id="playAudioIcon" class="material-icons left">play_arrow</i></a>
-                    {{/if}}
-                    {{#if isEqual type 'text'}}
-                        <p class="flow-text">{{value}}</p>
-                    {{/if}}
-                    {{#if isEqual type 'location'}}
-                        <img src="{{getMap value}}">
-                    {{/if}}
+            <!-- Messages -->
+            <div class="messageContainer row">
+                {{#each messages}}
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="col s12">
+                                <p>{{getName sender}}, {{getTime timestamp}}</p>
+                                {{#each communications}}
+                                    {{#if isEqual type 'video'}}
+                                    {{/if}}
+                                    {{#if isEqual type 'image'}}
+                                        <img class="responsive-img" src="{{value}}"/>
+                                        <br/>
+                                    {{/if}}
+                                    {{#if isEqual type 'audio'}}
+                                        <a class="waves-effect waves-light btn" id='playAudio' name="{{value}}"><i id="playAudioIcon" class="material-icons left">play_arrow</i></a>
+                                        <br/>
+                                    {{/if}}
+                                    {{#if isEqual type 'text'}}
+                                        <p class="flow-text">{{value}}</p>
+                                    {{/if}}
+                                    {{#if isEqual type 'location'}}
+                                        <img class="responsive-img" src="{{getMap value}}">
+                                        <br/>
+                                    {{/if}}
+                                {{/each}}
+                                <br/>
+                            </div>
+                        </div>
+                    </div>
                 {{/each}}
             </div>
-            {{/each}}
-        </div>
 
-        <!-- Communication controls -->
-        <div class="controls">
-            <div class="row">
-                <div class="col offset-l2 s3 l1">
-                    <a class="waves-effect waves-teal btn-flat " id="video">
-                        <i class="material-icons">videocam</i>
-                    </a>
+            <!-- Current message -->
+            {{#if message.communications}}
+                <div class="row">
+                    <div class="col s12">
+                        <div class="card teal lighten-5">
+                            <div class="card-content">
+                                {{#each message.communications}}
+                                    <a href="#!" class="left secondary-content" name="{{index}}" id="delete"><i class="material-icons">delete</i></a>
+                                    {{#if isEqual type 'video'}}
+                                    {{/if}}
+                                    {{#if isEqual type 'image'}}
+                                        <img class="responsive-img" src="{{value}}"/>
+                                        <br/>
+                                    {{/if}}
+                                    {{#if isEqual type 'audio'}}
+                                        <a class="waves-effect waves-light btn" id='playAudio' name="{{value}}"><i id="playAudioIcon" class="material-icons left">play_arrow</i></a>
+                                        <br/>
+                                    {{/if}}
+                                    {{#if isEqual type 'text'}}
+                                        <p class="flow-text">{{value}}</p>
+                                    {{/if}}
+                                    {{#if isEqual type 'location'}}
+                                        <img class="responsive-img" src="{{getMap value}}">
+                                        <br/>
+                                    {{/if}}
+                                {{/each}}
+                            </div>
+                            <div class="card-action">
+                                <a href="#" id="share"><i class="material-icons">group_work</i></a>
+                                <a href="#" id="send"><i class="material-icons">send</i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col s3 l1">
-                    <a class="waves-effect waves-teal btn-flat " id="image">
-                        <i class="material-icons">camera</i>
+            {{/if}}
+
+            <!-- Communication controls -->
+            <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+                <a class="btn-floating btn-large red">
+                    <i class="large material-icons">add</i>
+                </a>
+                <ul>
+                    <li><a class="btn-floating amber" id="video"><i class="material-icons">videocam</i></a></li>
+                    <li><a class="btn-floating amber" id="image"><i class="material-icons">camera</i></a></li>
+                    <li><a class="btn-floating amber" id="audio"><i class="material-icons">mic</i></a></li>
+                    <li><a class="btn-floating amber" id="text"><i class="material-icons">translate</i></a></li>
+                    <li><a class="btn-floating amber" id="location"><i class="material-icons">location_on</i></a></li>
+                    <li><a class="btn-floating amber" id="live"><i class="material-icons">cast</i></a></li>
+                </ul>
+            </div>
+
+            <!-- Inputs -->
+            <div id="modal-input-text" class="modal bottom-sheet">
+                <div class="modal-content">
+                    <div class="input-message row">
+                        <div class="input-field col s12">
+                            <input id="input-text" type="text" />
+                            <label for="text">Message</label>
+                        </div>
+                    </div>
+                    <a class="waves-effect waves-teal btn-flat left close-modal-input-text" name="close">
+                        <i class="material-icons">close</i>
                     </a>
-                </div>
-                <div class="col s3 l1">
-                    <a class="waves-effect waves-teal btn-flat " id="audio">
-                        <i class="material-icons">mic</i>
-                    </a>
-                </div>
-                <div class="col s3 l1">
-                    <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal-input-text" id="text">
-                        <i class="material-icons">translate</i>
-                    </a>
-                </div>
-                <div class="col s3 l1">
-                    <a class="waves-effect waves-teal btn-flat " id="location">
-                        <i class="material-icons">location_on</i>
-                    </a>
-                </div>
-                <div class="col s3 l1">
-                    <a class="waves-effect waves-teal btn-flat" id="live">
-                        <i class="material-icons">cast</i>
-                    </a>
-                </div>
-                <div class="col s3 l1">
-                    <a class="waves-effect waves-teal btn-flat " id="share">
-                        <i class="material-icons">share</i>
-                    </a>
-                </div>
-                <div class="col s3 l1">
-                    <a class="waves-effect waves-teal btn-flat " id="send">
-                        <i class="material-icons">send</i>
+                    <a class="waves-effect waves-teal btn-flat right add-modal-input-text" name="add">
+                        <i class="material-icons">add</i>
                     </a>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Inputs -->
-    <div id="modal-input-text" class="modal bottom-sheet">
-        <div class="modal-content">
-            <div class="input-message row">
-                <div class="input-field col s12">
-                    <input id="input-text" type="text"/>
-                    <label for="text">Message</label>
-                </div>
-            </div>
-            <a class="waves-effect waves-teal btn-flat left close-modal-input-text" name="close">
-                <i class="material-icons">close</i>
-            </a>
-            <a class="waves-effect waves-teal btn-flat right add-modal-input-text" name="add">
-                <i class="material-icons">add</i>
-            </a>
-        </div>
-    </div>
+    {{else}}
+        {{> yield "unverified"}}
+    {{/if}}
 </template>

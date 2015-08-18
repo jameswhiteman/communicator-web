@@ -14,7 +14,7 @@ iron:router
 mdg:geolocation
 mdg:camera
 flowkey:microphone
-strikeout:lazyload-xt
 http
-ovcharik:howler
-universe:audio-recorder
+accounts-password
+accounts-ui
+meteorhacks:fast-render
